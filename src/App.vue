@@ -1,13 +1,17 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { watch } from 'vue'
 import { useDragAndDrop } from '@formkit/drag-and-drop/vue'
+import { useCrewStore } from '@/stores/crewStore'
 
-const crew1 = ref(['Luffy', 'Zoro', 'Sanji', 'Nami', 'Usopp'])
-const crew2 = ref(['Chopper', 'Franky', 'Robin', 'Brook', '???'])
+const crewStore = useCrewStore()
 
-const [elParent, renderedCrew] = useDragAndDrop(crew1.value)
-const [elCrew1, renderedCrew1] = useDragAndDrop(crew1.value, { group: 'crew' })
-const [elCrew2, renderedCrew2] = useDragAndDrop(crew2.value, { group: 'crew' })
+const [elParent, renderedCrew] = useDragAndDrop(crewStore.crew1)
+const [elCrew1, renderedCrew1] = useDragAndDrop(crewStore.crew1, { group: 'crew' })
+const [elCrew2, renderedCrew2] = useDragAndDrop(crewStore.crew2, { group: 'crew' })
+
+watch(renderedCrew1, (newCrew: string[]) => {
+  crewStore.setUserCrew(newCrew)
+})
 </script>
 
 <template>
@@ -25,6 +29,10 @@ const [elCrew2, renderedCrew2] = useDragAndDrop(crew2.value, { group: 'crew' })
       <li v-for="member in renderedCrew2" :key="member">{{ member }}</li>
     </ul>
   </div>
+  <h3>Final Crew List</h3>
+  <pre>
+    {{ crewStore.userCrew }}
+  </pre>
 </template>
 
 <style scoped>
