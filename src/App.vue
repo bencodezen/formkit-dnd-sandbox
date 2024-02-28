@@ -1,20 +1,15 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import { useDragAndDrop } from '@formkit/drag-and-drop/vue'
+
+const [parent, crew] = useDragAndDrop(['Luffy', 'Zoro', 'Nami', 'Sanji', 'Usopp'])
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  <h1>FormKit DnD Experiments</h1>
+  <h2>Sorting a List with Drag and Drop</h2>
+  <ol ref="parent">
+    <li v-for="member in crew" :key="member">{{ member }}</li>
+  </ol>
 </template>
 
 <style scoped>
